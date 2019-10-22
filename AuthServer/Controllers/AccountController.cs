@@ -26,8 +26,9 @@ namespace AuthServer.Controllers
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
+        private readonly IPersistedGrantService _persistedGrantService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IIdentityServerInteractionService interaction, IAuthenticationSchemeProvider schemeProvider, IClientStore clientStore, IEventService events)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IIdentityServerInteractionService interaction, IAuthenticationSchemeProvider schemeProvider, IClientStore clientStore, IEventService events, IPersistedGrantService persistedGrantService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -35,6 +36,7 @@ namespace AuthServer.Controllers
             _schemeProvider = schemeProvider;
             _clientStore = clientStore;
             _events = events;
+            _persistedGrantService = persistedGrantService;
         }
 
         /// <summary>
@@ -181,7 +183,7 @@ namespace AuthServer.Controllers
         {
             // build a model so the logged out page knows what to display
             var vm = await BuildLoggedOutViewModelAsync(model.LogoutId);
-
+          
             if (User?.Identity.IsAuthenticated == true)
             {
                 // delete local authentication cookie
@@ -344,7 +346,8 @@ namespace AuthServer.Controllers
                 SignOutIframeUrl = logout?.SignOutIFrameUrl,
                 LogoutId = logoutId
             };
-
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, logout.ClientId);
             if (User?.Identity.IsAuthenticated == true)
             {
                 var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
