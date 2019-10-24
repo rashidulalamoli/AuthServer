@@ -23,13 +23,10 @@ namespace AuthServer
             {
                  new ApiResource("hoxrofinance", "HoxroFinance")
                 {
-                    Scopes = {new Scope("api.read")},
-                    ApiSecrets =
-                     {
-                       new Secret("secret".Sha256())
-                     }
-                },
-                   new ApiResource("api2", "api2")
+                    Scopes = {new Scope("hoxrofinance.read") },
+                    ApiSecrets = {new Secret("hxr_fin_2019_sec@api/1".Sha256())}
+                 },
+                 new ApiResource("api2", "api2")
                 {
                     Scopes = {new Scope("api2.read")},
                      
@@ -71,17 +68,18 @@ namespace AuthServer
             {
                 new Client {
                     RequireConsent = false,
-                    ClientId = "angular_spa",
-                    ClientName = "Angular SPA",
+                    ClientId = "finance_spa",
+                    ClientName = "Finance SPA",
                     AccessTokenType = AccessTokenType.Reference,
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "api.read"
+                        "hoxrofinance.read"
                     },
+                    ClientSecrets = {new Secret("hxr_fin_2019_sec@api/1".Sha256())},
                     RedirectUris = {"http://localhost:4200/auth-callback"},
                     PostLogoutRedirectUris = {"http://localhost:4200/?postLogout=true"},
                     AllowedCorsOrigins = {"http://localhost:4200"},
