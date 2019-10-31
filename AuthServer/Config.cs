@@ -79,8 +79,10 @@ namespace AuthServer
                         IdentityServerConstants.StandardScopes.Email,
                         "hoxrofinance.read"
                     },
-                    ClientSecrets = {new Secret("hxr_fin_2019_sec@api/1".Sha256())},
-                    RedirectUris = {"http://localhost:4200/auth-callback"},
+                    RequireClientSecret = true,
+                    ClientSecrets = {new Secret("hxr_fin_2019_sec@ui/1".Sha256())},
+                    RequirePkce = true,
+                    RedirectUris = {"http://localhost:4200/auth-callback", "http://localhost:4200/silent-refresh.html"},
                     PostLogoutRedirectUris = {"http://localhost:4200/?postLogout=true"},
                     AllowedCorsOrigins = {"http://localhost:4200"},
                     AllowAccessTokensViaBrowser = true,

@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="identityserver4.entityframework" Version="2.3.2" />
-    <PackageReference Include="microsoft.aspnetcore.identity.entityframeworkcore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="microsoft.entityframeworkcore.design" Version="2.2.3" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Migrations\PersistedGrantDb\" />
   </ItemGroup>  
 
 </Project>
